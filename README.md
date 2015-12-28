@@ -1,5 +1,3 @@
-# handball-betting-prediction
-
 **<h1>
 Handball betting prediction
 </h1>**

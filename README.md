@@ -11,7 +11,7 @@ For assistance in that task will be used an artificial neural network.
 Directories
 </h2>
 
-<h3>1. DataSet</h3>
+<b>1. DataSet</b>
    <br/><b>1.1 Predict</b>
    <br/>Files for final prediction after training of the artificial neural network. For the prediction we have one round in Bundesliga written in excel file, and ANN makes a prediction for that round. The round written in excel file will be played in future.
    <br/><b>1.2 Test</b>

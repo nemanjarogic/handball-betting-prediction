@@ -12,11 +12,11 @@ Directories
 </h2>
 
 <h3>1. DataSet</h3>
-   <br/><h4>1.1 Predict</h4>
+   <br/><b>1.1 Predict</b>
    <br/>Files for final prediction after training of the artificial neural network. For the prediction we have one round in Bundesliga written in excel file, and ANN makes a prediction for that round. The round written in excel file will be played in future.
-   <br/><h4>1.2 Test</h4>
+   <br/><b>1.2 Test</b>
    <br/>Test files which is used in calculation for the accuracy of the prediction.
-   <br/><h4>1.3 Train</h4>
+   <br/><b>1.3 Train</b>
    <br/>Files for the training of the artificial neural network.
 
 

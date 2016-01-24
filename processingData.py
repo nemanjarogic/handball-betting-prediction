@@ -12,18 +12,18 @@ from sklearn.cluster import KMeans
 NUMBER_OF_PREVIOUS_GAMES = 6
 NUMBER_OF_FIRST_GAMES = 36 # Represent number of games where standing will not be included in match rating
                            # e.g. If league has 18 teams, and we won't included rankings for first 4 rounds that is 36 games(9*4)
-MR_MAX = 200 # Match rating maximum
+MR_MAX = 250 # Match rating maximum
 '''CURR_MAX_COEF = 20.0 # Max coefficient for current season
                      # e.g. best ranked team has coefficient 20, last team 2
 PREV1_MAX_COEF = 15.0 
 PREV2_MAX_COEF = 10.0
 PREV3_MAX_COEF = 5.0'''
 
-CURR_MAX_COEF = 20 # Max coefficient for current season
+CURR_MAX_COEF = 50 # Max coefficient for current season
                      # e.g. best ranked team has coefficient 20, last team 2
-PREV1_MAX_COEF = 8
-PREV2_MAX_COEF = 4
-PREV3_MAX_COEF = 2
+PREV1_MAX_COEF = 25
+PREV2_MAX_COEF = 10
+PREV3_MAX_COEF = 5
 
 
 def calculateCurrentStandingCoefficient(table, current_standing_coef, number_of_clusters, max_coefficient):

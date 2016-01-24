@@ -1,9 +1,8 @@
 import numpy as np
 
-from sklearn.cluster import KMeans
 
 from keras.models import Sequential
-from keras.layers.core import Dense,Activation
+from keras.layers.core import Dense
 from keras.optimizers import SGD
 
 
@@ -27,7 +26,7 @@ def train_ann(ann, input_list, output_list):
     ann.compile(loss='mean_squared_error', optimizer=sgd)
 
     # obucavanje neuronske mreze
-    ann.fit(input_list, output_list, nb_epoch=1, batch_size=1, verbose = 1, shuffle=False, show_accuracy = True) 
+    ann.fit(input_list, output_list, nb_epoch=5, batch_size=1, verbose = 1, shuffle=False, show_accuracy = True) 
       
     return ann
     

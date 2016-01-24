@@ -2,6 +2,9 @@ import processingData
 import settingData
 import trainAnn
 import predict
+import openpyxl
+import xlsxwriter
+import os.path
 import numpy as np
 
 
@@ -48,7 +51,37 @@ def displayTestResult(results_ann, results_real):
         print 'Successfully predicted draws: ' + str(draws_succ_predicted*100/draws_total_predicted) + '%'
     print 'Successfully predicted away wins: ' + str(away_wins_succ_predicted*100/away_wins_total_predicted) + '%'
     return
+
+def processData():
     
+    if os.path.isfile('DataSet/Train/processedData.xlsx'):
+        workbook = openpyxl.load_workbook("DataSet/Train/processedData.xlsx", use_iterators=True)
+        sheet = workbook.worksheets[0]
+
+        games = []
+        for row in sheet.iter_rows():
+            tempArray = []
+            for idx,k in enumerate(row):
+                tempArray.append(k.internal_value)
+                
+            games.append(tempArray)
+    else:
+        games, home_win, away_win, draw = processingData.startProcessingData(start_season_begin_year, start_season_end_year, NUMBER_OF_SEASONS, "Train")
+        book = xlsxwriter.Workbook('DataSet/Train/processedData.xlsx')
+        sheet = book.add_worksheet("Sheet 1")
+        
+        for i in range(0,len(games)):
+            sheet.write(i,0,games[i][0])
+            sheet.write(i,1,games[i][1])
+            sheet.write(i,2,games[i][2])
+            sheet.write(i,3,games[i][3])
+            sheet.write(i,4,games[i][4])
+            sheet.write(i,5,games[i][5])
+            sheet.write(i,6,games[i][6])
+            sheet.write(i,7,games[i][7])
+        book.close()
+    
+    return games    
     
 #writing data in Excel
 if isSettingDataEnabled == True:
@@ -58,10 +91,11 @@ if isSettingDataEnabled == True:
         settingData.writeSeasonInExcel(seasonName + ".xlsx",list_of_teams,results)
 
 #traing ann
-games, home_win, away_win, draw = processingData.startProcessingData(start_season_begin_year, start_season_end_year, NUMBER_OF_SEASONS, "Train")
+#games, home_win, away_win, draw = processingData.startProcessingData(start_season_begin_year, start_season_end_year, NUMBER_OF_SEASONS, "Train")
 #statistic_matrix = settingData.createStatisticMatrix(home_win, away_win, draw)
 #settingData.printProcessedData(games, statistic_matrix)
-
+games = processData()
+print 'Processing train data is done!'
 input_list, output_list = trainAnn.prepareDataForAnn(games)
 output = trainAnn.convertOutput(output_list)
 ann = trainAnn.create_ann(128,7,3)
@@ -76,7 +110,6 @@ ann = trainAnn.train_ann(ann, input_list, output)
         
 games, home_win, away_win, draw = processingData.startProcessingData(2015, 2016, 1, "Test")
 input_list, output_list = trainAnn.prepareDataForAnn(games)
-print input_list
 results_test = ann.predict(np.array(input_list, np.float32))
 
 alphabet = [1, 0, 2]

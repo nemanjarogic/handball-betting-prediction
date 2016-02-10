@@ -2,18 +2,23 @@ import numpy as np
 
 
 from keras.models import Sequential
-from keras.layers.core import Dense
+from keras.layers.core import Dense,Dropout, Activation
 from keras.optimizers import SGD
-
-
 
 def create_ann(hidden_layer_dimension, input_dimension, output_len):
     '''Implementacija vestacke neuronske mreze sa 784 neurona na uloznom sloju,
         128 neurona u skrivenom sloju i 10 neurona na izlazu. Aktivaciona funkcija je sigmoid.
     '''
     ann = Sequential()
-    ann.add(Dense(hidden_layer_dimension, input_dim=input_dimension, activation='sigmoid'))
-    ann.add(Dense(output_len, activation='sigmoid'))
+    ann.add(Dense(hidden_layer_dimension, input_dim=input_dimension, activation='tanh'))
+    ann.add(Dense(output_len, activation='tanh'))
+    
+    
+
+    #ann.add(Dense(input_dimension, init='uniform', input_dim=input_dimension))
+    #ann.add(Activation('softmax'))
+    #ann.compile(optimizer='sgd', loss='mse')
+
     return ann
     
 def train_ann(ann, input_list, output_list):
@@ -26,7 +31,7 @@ def train_ann(ann, input_list, output_list):
     ann.compile(loss='mean_squared_error', optimizer=sgd)
 
     # obucavanje neuronske mreze
-    ann.fit(input_list, output_list, nb_epoch=5, batch_size=1, verbose = 1, shuffle=False, show_accuracy = True) 
+    ann.fit(input_list, output_list, nb_epoch=100, batch_size=128, verbose = 1, shuffle=True, show_accuracy = True) 
       
     return ann
     

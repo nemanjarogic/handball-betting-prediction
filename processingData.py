@@ -9,24 +9,30 @@ from sklearn.cluster import KMeans
 # PREPARE DATA SET FILES FOR PROCESSING
 
 #NUMBER_OF_SEASONS = 7
-NUMBER_OF_PREVIOUS_GAMES = 6
+NUMBER_OF_PREVIOUS_GAMES = 3
 NUMBER_OF_FIRST_GAMES = 36 # Represent number of games where standing will not be included in match rating
                            # e.g. If league has 18 teams, and we won't included rankings for first 4 rounds that is 36 games(9*4)
-MR_MAX = 250 # Match rating maximum
+MR_MAX = 300 # Match rating maximum
 '''CURR_MAX_COEF = 20.0 # Max coefficient for current season
                      # e.g. best ranked team has coefficient 20, last team 2
 PREV1_MAX_COEF = 15.0 
 PREV2_MAX_COEF = 10.0
 PREV3_MAX_COEF = 5.0'''
 
-CURR_MAX_COEF = 50 # Max coefficient for current season
+CURR_MAX_COEF = 60 # Max coefficient for current season
                      # e.g. best ranked team has coefficient 20, last team 2
-PREV1_MAX_COEF = 25
-PREV2_MAX_COEF = 10
-PREV3_MAX_COEF = 5
+PREV1_MAX_COEF = 15
+PREV2_MAX_COEF = 8
+PREV3_MAX_COEF = 3
+
+'''CURR_MAX_COEF = 0.1 # Max coefficient for current season
+                     # e.g. best ranked team has coefficient 20, last team 2
+PREV1_MAX_COEF = 0.1
+PREV2_MAX_COEF = 0.1
+PREV3_MAX_COEF = 0.1'''
 
 
-def calculateCurrentStandingCoefficient(table, current_standing_coef, number_of_clusters, max_coefficient):
+def calculateCurrentStandingCoefficient(table, current_standing_coef, number_of_clusters, max_coefficient, number_of_game, number_of_all_games):
     
     #sorted_table = collections.OrderedDict(sorted(table.values(),reverse=True))
     list_of_points = []
@@ -54,7 +60,9 @@ def calculateCurrentStandingCoefficient(table, current_standing_coef, number_of_
         for j in range(0,number_of_clusters):
             if copy_of_cluster_centers[i]==k_means.cluster_centers_[j]:
                 list_of_sorted_cluster_index.append(j)
-    
+    #sala mala
+    max_coefficient = max_coefficient*number_of_game/number_of_all_games
+    #kraj sale
     for idx,lab in enumerate(k_means.labels_):
         for i,val in enumerate(list_of_sorted_cluster_index):
             if val==lab:
@@ -197,7 +205,7 @@ def startProcessingData(current_season_begin_year, current_season_end_year, NUMB
                     for key,value in current_standing_coef.iteritems(): 
                         current_standing_coef[key] = 0
                 else:
-                    current_standing_coef = calculateCurrentStandingCoefficient(table, current_standing_coef, 5, CURR_MAX_COEF)
+                    current_standing_coef = calculateCurrentStandingCoefficient(table, current_standing_coef, 5, CURR_MAX_COEF, processing_sheet.max_row, processing_sheet.max_row)
                 
                 home_team_name = row[0].internal_value.strip().encode('utf-8')
                 away_team_name = row[1].internal_value.strip().encode('utf-8')

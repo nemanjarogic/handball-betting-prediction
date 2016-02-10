@@ -45,11 +45,14 @@ def displayTestResult(results_ann, results_real):
     
     print 'Successfully predicted games: ' + str(successfully_predicted*100/len(results_ann)) + '%'
     print 'Successfully predicted home wins: ' + str(home_wins_succ_predicted*100/home_wins_total_predicted) + '%'
+    print 'home_wins_total_predicted: ', home_wins_total_predicted    
     if draws_total_predicted==0:
-        print 'Successfully predicted draws: 100%'
+        print 'Successfully predicted draws: none'
     else:
         print 'Successfully predicted draws: ' + str(draws_succ_predicted*100/draws_total_predicted) + '%'
+        print 'draws_total_predicted: ', draws_total_predicted   
     print 'Successfully predicted away wins: ' + str(away_wins_succ_predicted*100/away_wins_total_predicted) + '%'
+    print 'away_wins_total_predicted: ', away_wins_total_predicted       
     return
 
 def processData():
@@ -91,10 +94,10 @@ if isSettingDataEnabled == True:
         settingData.writeSeasonInExcel(seasonName + ".xlsx",list_of_teams,results)
 
 #traing ann
-#games, home_win, away_win, draw = processingData.startProcessingData(start_season_begin_year, start_season_end_year, NUMBER_OF_SEASONS, "Train")
+games, home_win, away_win, draw = processingData.startProcessingData(start_season_begin_year, start_season_end_year, NUMBER_OF_SEASONS, "Train")
 #statistic_matrix = settingData.createStatisticMatrix(home_win, away_win, draw)
 #settingData.printProcessedData(games, statistic_matrix)
-games = processData()
+#games = processData() #write games in excel file
 print 'Processing train data is done!'
 input_list, output_list = trainAnn.prepareDataForAnn(games)
 output = trainAnn.convertOutput(output_list)

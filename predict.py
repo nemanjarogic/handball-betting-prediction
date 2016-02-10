@@ -1,10 +1,9 @@
 import processingData
 import openpyxl
-from xlutils.copy import copy
 import xlsxwriter
 import numpy as np
 
-NUMBER_OF_PREVIOUS_GAMES = 6
+NUMBER_OF_PREVIOUS_GAMES = processingData.NUMBER_OF_PREVIOUS_GAMES
 
 def winner(output):
     return max(enumerate(output), key=lambda x: x[1])[0]
@@ -24,11 +23,8 @@ def predictResult(beginSeasonYear, endSeasonYear, roundNumber, ann):
     alphabet = ['1', 'X', '2']
     home_list = []
     away_list = []
-    
-    print "String: " , "DataSet/Predict/season" + str(beginSeasonYear) + '-' + str(endSeasonYear) + "round" + str(roundNumber) + ".xlsx"  
-    
+      
     for idx,row in enumerate(sheet.iter_rows()):
-        print "For petlja"
         home_team_name = row[0].internal_value.strip().encode('utf-8')
         home_list.append(home_team_name)
         away_team_name = row[1].internal_value.strip().encode('utf-8')
@@ -66,8 +62,6 @@ def predictResult(beginSeasonYear, endSeasonYear, roundNumber, ann):
      
         input_list.append(temp)
         
-    
-    print input_list
     
     #use ann----------------------------
     results_test = ann.predict(np.array(input_list, np.float32))
